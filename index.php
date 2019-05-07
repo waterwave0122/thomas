@@ -46,9 +46,9 @@ $url2='http://'.$address.':'.$port.'/webapi/auth.cgi?api=SYNO.API.Auth&version=2
 $login=file_get_contents($url2);
 $decodedlogin=json_decode($login,true);
 
-$sid=$decodedlogin['data'][sid]; //We'll have to send through the URL the Session ID (SID) in each request, or we won't we allowed to acces the data.
+$sid=$decodedlogin['data']['sid']; //We'll have to send through the URL the Session ID (SID) in each request, or we won't we allowed to acces the data.
 //Step 4: Retrieve general info.
-$url3='http://'.$address.':'.$port.'/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=list&_sid='.$sid.''; //The SID is sent in the las parameter.
+$url3='http://'.$address.':'.$port.'/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=list&_sid='.$sid.'&additional=transfer'; //The SID is sent in the las parameter.
 $request=file_get_contents($url3); //Request list of downloads
 $decodedrequest=json_decode($request,true);
 $totaldownloads=$decodedrequest['data']['total']; //get total number of downloads (for statistics)
@@ -80,8 +80,8 @@ after <th>Estado</th> */
 
 //Step 5: Retrieve detailed info for each ID
 
-foreach ($decodedrequest['data']['tasks'] as $theparameter) { //Get details for each download ID
-
+foreach ($decodedrequest['data']['tasks'] as $theparameter2) { //Get details for each download ID
+/*
 $id=$theparameter['id']; //Get each download ID to get details for each download
 
 echo "<tr>";
@@ -92,7 +92,7 @@ $detail=file_get_contents($url4); //Request list of download details (for the ID
 $decodeddetail=json_decode($detail,true);
 
 foreach($decodeddetail['data']['tasks'] as $theparameter2){ //Get all the details (the most unuseful ones are disabled, but you can get them by just uncommenting the line for the desired parameter.
-
+*/
 //$type=$theparameter2['type'];
 //$username=$theparameter2['username'];
 $title=$theparameter2['title'];
@@ -158,7 +158,7 @@ if($status=="error") echo '<td align=center><img src="images_status/error.png" w
 <td>$id</td>
 */
 
-}
+//}
 
 echo "</tr>";
 }
